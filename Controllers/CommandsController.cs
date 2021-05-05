@@ -51,5 +51,21 @@ namespace commander.Controllers{
         return NotFound();
       }
     }
+    // POST api/v1/commands
+    [HttpPost]
+    // returns CommandReadDto object
+    public ActionResult <CommandReadDto> CreateCommand(CommandCreateDto commandCreateDto){
+      // map data received in Dto class into our model class
+      // Note! this mapping need to be defined in Profile\CommandsProfile.cs
+      var commandModel = _mapper.Map<Command>(commandCreateDto);
+      // create command (sql insert statement?!?)
+      _database.CreateCommand(commandModel);
+      // commit this to DB
+      _database.SaveChanges();
+      // map model into read DTO
+      var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
+      // return model back to user
+      return Ok(commandReadDto);
+    }
   }
 }

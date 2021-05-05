@@ -9,5 +9,8 @@ namespace commander.Data
     IEnumerable<Command> GetAllCommands();
     // define iterface for getting specific command
     Command GetCommandById(int id);
+    // define create
+    bool SaveChanges();
+    void CreateCommand(Command cmd);
   }
 }

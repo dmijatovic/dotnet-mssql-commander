@@ -10,6 +10,8 @@ namespace commander.Profiles{
       // map Command class to CommandReadDto
       // this is simple 1-to-1 mapping
       CreateMap<Command,CommandReadDto>();
+      // this maps received data to our model class
+      CreateMap<CommandCreateDto,Command>();
     }
 
   }

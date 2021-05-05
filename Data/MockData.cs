@@ -7,6 +7,15 @@ namespace commander.Data{
   // use ctrl + . to automatically write basic placeholders
   public class MockData:iCommander
   {
+    public bool SaveChanges()
+    {
+      throw new System.NotImplementedException();
+    }
+    public void CreateCommand(Command cmd)
+    {
+      throw new System.NotImplementedException();
+    }
+
     public IEnumerable<Command> GetAllCommands()
     {
       // define static list of commands
@@ -25,5 +34,7 @@ namespace commander.Data{
         id=1,howto="Delete file",command="rm <filename>",platform="linux:bash"
       };
     }
+
+    
   }
 }

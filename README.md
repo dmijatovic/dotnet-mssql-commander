@@ -88,6 +88,16 @@ Steps:
 - create Profiles folder and map Command class to CommandReadDto (see Profile/CommandsProfile.cs)
 - update Controllers, see Controllers/CommandController.cs by injecting IMapper into class and returning Dto class instead of model class.
 
+### Extending base setup
+
+In the intital setup only reading (GET) structure is created. Next step is extending this setup with write. There could be diffrent ways to 'skin the cat'. In this training the order followed is:
+
+- Add new method in Data\iComander.cs interface (define new method in the interface). For saving implement SaveChanges() method.
+- Implement interface in Data\MsSqlCommander.cs. Use `ctrl + .` for basic scaffold. Two methods are implemented: SaveChanges and CreateCommand.
+- Add mapping (if needed) to Profile\CommandsProfile.
+- Create Dtos\CommandCreateDto to define required data layout for creating new items.
+- Define CreateCommand method that will tie all this together in the Controllers\CommandsController.cs. Here we expose POST method, map received data into model, call database to create new record and return created data back. In addition, we
+
 ### Tricks
 
 - `prop`: when defining properties of a class in the Models, there is shortcut key that will write longer definition required by C#.

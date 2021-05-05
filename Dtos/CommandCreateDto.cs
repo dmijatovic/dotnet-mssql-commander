@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace commander.Dtos
 {
-  public class CommandWriteDto{
+  public class CommandCreateDto{
    // indicate NOT NULL and char length
     [Required]
     [MaxLength(255)]
