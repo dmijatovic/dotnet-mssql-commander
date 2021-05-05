@@ -67,5 +67,23 @@ namespace commander.Controllers{
       // return model back to user
       return Ok(commandReadDto);
     }
+    // PUT api/v1/commands/1
+    [HttpPut("{id}")]
+    public ActionResult UpdateCommand(int id, CommandUpdateDto commandUpdateDto){
+      // check if items exists
+      var itemFromDb=_database.GetCommandById(id);
+      // if not found return that info
+      if(itemFromDb==null){
+        return NotFound();
+      }
+      // update data
+      _mapper.Map(commandUpdateDto,itemFromDb);
+      // call update (this fn is empty but there might)
+      _database.UpdateCommand(itemFromDb);
+      // commit changes toDB
+      _database.SaveChanges();
+      // return OK with no content
+      return NoContent();
+    }
   }
 }

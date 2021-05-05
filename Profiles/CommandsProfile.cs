@@ -12,6 +12,8 @@ namespace commander.Profiles{
       CreateMap<Command,CommandReadDto>();
       // this maps received data to our model class
       CreateMap<CommandCreateDto,Command>();
+      // map update object to model
+      CreateMap<CommandUpdateDto,Command>();
     }
 
   }

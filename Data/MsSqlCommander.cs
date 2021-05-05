@@ -26,7 +26,7 @@ namespace commander.Data{
     {
       return _context.Commands.FirstOrDefault(p=>p.id==id);
     }
-    // code to support adding new commands
+    // Adding new items/records
     public bool SaveChanges()
     {
       // this methods need to be called
@@ -40,6 +40,13 @@ namespace commander.Data{
         throw new ArgumentNullException(nameof(cmd));
       }
       _context.Commands.Add(cmd);
+    }
+
+    // Update existing items
+    public void UpdateCommand(Command cmd)
+    {
+      // no code is required here because it's
+      // been taken care by database context
     }
   }
 }
