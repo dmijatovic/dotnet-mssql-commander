@@ -111,5 +111,23 @@ namespace commander.Controllers{
       // return OK with no content
       return NoContent();
     }
+    // DELETE api/v1/commands/{id}
+    [HttpDelete("{id}")]
+    public ActionResult DeleteCommand(int id){
+       // check if items exists
+      var itemFromDb=_database.GetCommandById(id);
+      // if not found return that info
+      if(itemFromDb==null){
+        return NotFound();
+      }
+      // for patch map from Command to CompandUpdateDto
+      var itemDto = _mapper.Map<CommandReadDto>(itemFromDb);
+      // call delete
+      _database.DeleteCommand(itemFromDb);
+      // commit changes toDB
+      _database.SaveChanges();
+      // return OK with no content
+      return Ok(itemDto);
+    }
   }
 }

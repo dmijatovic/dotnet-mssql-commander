@@ -48,5 +48,15 @@ namespace commander.Data{
       // no code is required here because it's
       // been taken care by database context
     }
+
+    // Delete item
+    public void DeleteCommand(Command cmd)
+    {
+      // throw new NotImplementedException();
+      if (cmd==null){
+        throw new ArgumentNullException(nameof(cmd));
+      }
+      _context.Commands.Remove(cmd);
+    }
   }
 }

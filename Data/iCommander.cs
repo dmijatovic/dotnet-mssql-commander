@@ -14,5 +14,7 @@ namespace commander.Data
     void CreateCommand(Command cmd);
     // define interface for updating existing items
     void UpdateCommand(Command cmd);
+    // defined interface for deleting
+    void DeleteCommand(Command cmd);
   }
 }
