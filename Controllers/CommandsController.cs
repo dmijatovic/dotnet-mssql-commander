@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using commander.Data;
 using commander.Models;
+using AutoMapper;
+using commander.Dtos;
 
 // namespace reflects project name and the folder structure
 namespace commander.Controllers{
@@ -14,12 +16,16 @@ namespace commander.Controllers{
     private readonly MockData _mockDB = new MockData();
     // define private class variable to get injected data
     private readonly iCommander _database;
+    private readonly IMapper _mapper;
+
     // constructor getting data injected into this class
     // using iCommander interface, as it interface we are
     // sure that it implements required methods
-    public CommandsController(iCommander database)
+    // then we inject IMapper to use AutoMapper and DTO
+    public CommandsController(iCommander database, IMapper mapper)
     {
         _database = database;
+        _mapper = mapper;
     }
 
     // GET api/v1/commands/{id}
@@ -31,15 +37,19 @@ namespace commander.Controllers{
     // between <> is object type returned
     // THEN comes the method name GetAllCommands
     // ActionResult method needs to return something
-    public ActionResult <IEnumerable<Command>> GetAllCommands(){
+    public ActionResult <IEnumerable<CommandReadDto>> GetAllCommands(){
       var commands = _database.GetAllCommands();
-      return Ok(commands);
+      return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commands));
     }
     // GET api/v1/commands/{id}
     [HttpGet("{id}")]
-    public ActionResult <Command> GetCommandById(int id){
+    public ActionResult <CommandReadDto> GetCommandById(int id){
       var command = _database.GetCommandById(id);
-      return Ok(command);
+      if (command != null){
+        return Ok(_mapper.Map<CommandReadDto>(command));
+      }else{
+        return NotFound();
+      }
     }
   }
 }

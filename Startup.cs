@@ -31,6 +31,9 @@ namespace commander
             services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("CommanderConnection")));
             // define controllers (route handlers)
             services.AddControllers();
+            // add DTO autommaper
+            // it needs to get assemblies from current app domain?!?
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             // define service injection with mocked data
             // services.AddScoped<iCommander, MockData>();
             services.AddScoped<iCommander,MsSqlCommander>();

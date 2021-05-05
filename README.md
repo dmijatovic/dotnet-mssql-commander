@@ -61,7 +61,7 @@ dotnet tool install --global dotnet-ef
 
 Steps to connect database and models
 
-- Create DB context (CommanderContext.cs): this class is defined in the folder Data. It extends basic DbContext class. It defines DbSet<Command> with out Command class from Models.
+- Create DB context (CommanderContext.cs): this class is defined in the folder Data. It extends basic DbContext class. It defines DbSet\<Command> with out Command class from Models.
 - Define connection in appsettings.json (for develpment there is separate file). Each SQL server has different connection string.
 
 ```json
@@ -73,6 +73,20 @@ Steps to connect database and models
 ### DTO (Data Transfer Objects)
 
 Next paradigm in dotnet is DTO. Instead of exposing Models directly to api we use DTO classes to transform model objects into client facing objects. This means that we can rename or remove properties (table fields) from our modal. Not sure if you can make additional calculations but I assume this will be the place for it :-).
+
+Additional packages need to installed
+
+```bash
+# install AutoMapper.Extensions.Microsoft.DependencyInjection
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
+```
+
+Steps:
+
+- In the Startup.cs class use services.AddAutoMapper() to add it to the project.
+- create Dtos folder and add classes for transformation CommandReadDto.cs as example
+- create Profiles folder and map Command class to CommandReadDto (see Profile/CommandsProfile.cs)
+- update Controllers, see Controllers/CommandController.cs by injecting IMapper into class and returning Dto class instead of model class.
 
 ### Tricks
 
