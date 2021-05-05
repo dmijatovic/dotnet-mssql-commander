@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using commander.Data;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
+
 
 namespace commander
 {
@@ -30,7 +32,11 @@ namespace commander
             // define db connection (here to MSSQL, it is bit different for other SQL servers)
             services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("CommanderConnection")));
             // define controllers (route handlers)
-            services.AddControllers();
+            // services.AddControllers();
+            // addNewtonsoftJson is added to support PATCH method
+            services.AddControllers().AddNewtonsoftJson(s=>{
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             // add DTO autommaper
             // it needs to get assemblies from current app domain?!?
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

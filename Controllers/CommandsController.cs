@@ -4,6 +4,7 @@ using commander.Data;
 using commander.Models;
 using AutoMapper;
 using commander.Dtos;
+using Microsoft.AspNetCore.JsonPatch;
 
 // namespace reflects project name and the folder structure
 namespace commander.Controllers{
@@ -78,6 +79,31 @@ namespace commander.Controllers{
       }
       // update data
       _mapper.Map(commandUpdateDto,itemFromDb);
+      // call update (this fn is empty but there might)
+      _database.UpdateCommand(itemFromDb);
+      // commit changes toDB
+      _database.SaveChanges();
+      // return OK with no content
+      return NoContent();
+    }
+    // PATCH api/v1/commands/{id}
+    [HttpPatch("{id}")]
+    public ActionResult PartialUpdate(int id,JsonPatchDocument<CommandUpdateDto> patchItem){
+      // check if items exists
+      var itemFromDb=_database.GetCommandById(id);
+      // if not found return that info
+      if(itemFromDb==null){
+        return NotFound();
+      }
+      // for patch map from Command to CompandUpdateDto
+      var commandToPatch = _mapper.Map<CommandUpdateDto>(itemFromDb);
+      // apply this patch ?!?
+      patchItem.ApplyTo(commandToPatch,ModelState);
+      if (TryValidateModel(commandToPatch)==false){
+        return ValidationProblem(ModelState);
+      }
+      // update
+      _mapper.Map(commandToPatch,itemFromDb);
       // call update (this fn is empty but there might)
       _database.UpdateCommand(itemFromDb);
       // commit changes toDB

@@ -42,11 +42,11 @@ This package is used for connecting to database. In this project we use MSSQL on
 
 ```bash
 # install framework
-dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore -v 3.1.10
 # install design
-dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Design -v 3.1.10
 # install MSSQL server package (or other SQLDB see below)
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer -v 3.1.10
 # check dependencies are added to csproj file
 ```
 
@@ -97,6 +97,36 @@ In the intital setup only reading (GET) structure is created. Next step is exten
 - Add mapping (if needed) to Profile\CommandsProfile.
 - Create Dtos\CommandCreateDto to define required data layout for creating new items.
 - Define CreateCommand method that will tie all this together in the Controllers\CommandsController.cs. Here we expose POST method, map received data into model, call database to create new record and return created data back. In addition, we
+
+## PATCH method
+
+Enables you to make partially updates of the object. It has specific format and it requires additional packages to install
+
+```json
+[
+  {
+    "op": "replace",
+    "path": "/howto",
+    "value": "New value to use"
+  },
+  {
+    "op": "replace",
+    "path": "/platform",
+    "value": "New platform to use"
+  }
+]
+```
+
+```bash
+# install dependecies
+dotnet add package Microsoft.AspNetCore.JsonPatch -v 3.1.10
+# it needs specific version for dotnet core
+dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson -v 3.1.10
+```
+
+Then add these services in the Startup.cs class.
+
+`NOTE! By examining csproj file it seems that all installed packages should have manadatory version to v 3.1.* when installing. Otherwise all default to v5 of .NET package.` Maybe is this issue on Linux machines only?
 
 ## Tricks
 

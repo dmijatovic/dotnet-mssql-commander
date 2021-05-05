@@ -14,6 +14,8 @@ namespace commander.Profiles{
       CreateMap<CommandCreateDto,Command>();
       // map update object to model
       CreateMap<CommandUpdateDto,Command>();
+      // mapping to support PATCH
+      CreateMap<Command,CommandUpdateDto>();
     }
 
   }
