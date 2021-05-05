@@ -28,13 +28,51 @@ This concept links interface to actual implementation usign service configuratio
 iComander -> MockData
 ```
 
-### Service Lifetime
+#### Service Lifetime
 
 When registering services (dependency injection) there are
 
 - AddSingleton: same for every request (one time class initialization)
 - AddScoped: once per client request
 - Transient: new instance every time
+
+### Microsoft.EntityFrameworkCore
+
+This package is used for connecting to database. In this project we use MSSQL on standard port (via docker)
+
+```bash
+# install framework
+dotnet add package Microsoft.EntityFrameworkCore
+# install design
+dotnet add package Microsoft.EntityFrameworkCore.Design
+# install MSSQL server package (or other SQLDB see below)
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+# check dependencies are added to csproj file
+```
+
+- [PostgreSQL package](https://www.npgsql.org/efcore/#additional-configuration-for-aspnet-core-applications)
+- [mySQL package](https://dev.mysql.com/doc/connector-net/en/connector-net-entityframework-core-example.html)
+
+- Dotnet EF tools: for data migrations and setup. These will scaffold DB for you
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+Steps to connect database and models
+
+- Create DB context (CommanderContext.cs): this class is defined in the folder Data. It extends basic DbContext class. It defines DbSet<Command> with out Command class from Models.
+- Define connection in appsettings.json (for develpment there is separate file). Each SQL server has different connection string.
+
+```json
+"ConnectionStrings":
+```
+
+- Configure connection in the services in Startup.cs file using services.AddDbContext
+
+### DTO (Data Transfer Objects)
+
+Next paradigm in dotnet is DTO. Instead of exposing Models directly to api we use DTO classes to transform model objects into client facing objects. This means that we can rename or remove properties (table fields) from our modal. Not sure if you can make additional calculations but I assume this will be the place for it :-).
 
 ### Tricks
 
