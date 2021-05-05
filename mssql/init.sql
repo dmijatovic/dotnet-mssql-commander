@@ -1,25 +1,17 @@
 
 -- ************************************
--- TODO ITEMS TABLE FOR DEMO
+-- COMMANDER ITEMS TABLE FOR DEMO
 
-CREATE DATABASE todo_db;
+CREATE DATABASE commander_db;
 GO
 
-USE todo_db;
+USE commander_db;
 GO
 
-CREATE TABLE todo_list (
+CREATE TABLE Command (
   id int IDENTITY(1,1) primary key,
-  title varchar(150) NOT NULL
+  howto varchar(255) NOT NULL,
+  command varchar(255) NOT NULL,
+  platform varchar(255) NOT NULL
 );
 GO
-
-CREATE TABLE todo_item (
-  id int IDENTITY(1,1) primary key,
-  title varchar(150) not null,
-  checked bit DEFAULT 0,
-  list_id integer not null,
-  foreign key(list_id) references todo_list(id)
-);
-GO
-

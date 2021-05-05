@@ -40,9 +40,12 @@ docker cp /tmp/mydb.mdf d6b75213ef80:/var/opt/mssql/data
 SQLcmd tools commands can be [found here](https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-ver15#sqlcmd-commands)
 
 ```bash
-# start sqlcmd terminal
-
+# enter sqlcmd in container
+docker-compose exec mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Pa55word!
+# use database
+USE commander_db
 # execute query
+select * from Command
 GO
 # Exit sqlcmd tool
 :QUIT
@@ -54,6 +57,8 @@ GO
 ```bash
 # enter container
 docker-compose exec mssql bash
+# enter sqlcmd in container
+docker-compose exec mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Pa55word!
 # get logs
 cd /var/opt/mssql/log
 cat setup*.log
