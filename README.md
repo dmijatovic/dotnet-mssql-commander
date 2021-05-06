@@ -134,3 +134,38 @@ Then add these services in the Startup.cs class.
 - `ctor`: to scaffold contructor syntax
 - `Ctrl + .`: when missing dependecies in the class suggestion can be shown using shortcut `ctrl + .`
 - File names: changing the name of class file does not have an impact to application as long as defined class name in the file remains the same. After chaning name of the class in the file there will be errors to point inconsistance.
+
+## Publish / Build application
+
+For building application, as dotnet core, is crossplatform we can `publish` to different OS targets.
+
+For more info about [publish flags see docs](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
+
+```bash
+# target Alpine
+dotnet publish ./commander.csproj \
+  --runtime linux-musl-x64 \
+  -c RELEASE \
+  -o out /p:Version=1.0.0 \
+  -p:PublishTrimmed=true
+
+# target Debian?!?
+dotnet publish ./commander.csproj \
+  --runtime linux-x64 \
+  -c RELEASE \
+  -o out /p:Version=1.0.0 \
+  -p:PublishTrimmed=true
+
+```
+
+To build docker
+
+```bash
+# build docker image default file
+docker build -t commander:0.0.2 .
+# build alpine version
+docker build -t commander:0.0.3 ./Docker_apline
+
+# run image
+docker run -p 5000:5000 commander:1.0.0
+```

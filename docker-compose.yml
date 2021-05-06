@@ -1,0 +1,38 @@
+version: "3"
+services:
+  mssql:
+    container_name: mssql
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    command: /bin/bash /home/mssql/entrypoint.sh
+    env_file:
+      # configure mssql
+      - ./mssql/database.env
+    expose:
+      - "1433"
+    volumes:
+      # persist data
+      - commander_data:/var/opt/mssql
+      # run init sql scripts
+      - ./mssql/entrypoint.sh:/home/mssql/entrypoint.sh
+      - ./mssql/init.sh:/home/mssql/init.sh
+      - ./mssql/init.sql:/home/mssql/init.sql
+    networks:
+      - net
+
+  command-api:
+    container_name: command-api
+    build: .
+    image: dv4all/command-api:0.0.2
+    ports:
+      - "5000:5000"
+    networks:
+      - net
+    depends_on:
+      - mssql
+
+networks:
+  net:
+
+volumes:
+  commander_data:
+
