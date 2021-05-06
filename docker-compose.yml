@@ -21,8 +21,10 @@ services:
 
   command-api:
     container_name: command-api
-    build: .
-    image: dv4all/command-api:0.0.2
+    build:
+      context: ./
+      dockerfile: Dockerfile_debian
+    image: dv4all/command-api:0.0.4
     ports:
       - "5000:5000"
     networks:

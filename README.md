@@ -165,7 +165,25 @@ To build docker
 docker build -t commander:0.0.2 .
 # build alpine version
 docker build -t commander:0.0.3 ./Docker_apline
-
 # run image
 docker run -p 5000:5000 commander:1.0.0
+```
+
+### Docker compose
+
+I have tried few 'flavours' of docker images with this application. It seem to me that debia is the best choice at the moment of writing. First there are 2 versions of dotnet currently v5 (last version) and v3.1 (LTS version). I used 3.1 LTS version for all development and dockerizing.
+
+- aspnet: mcr.microsoft.com/dotnet/core/aspnet:3.1,this works out-of-the-box and has image size of 218MB
+- runtime-deps: mcr.microsoft.com/dotnet/runtime-deps:3.1, works with compiled self-contained approach (Dockefile_debian) and has image size of 215MB.
+- alpine: dotnet/runtime-deps:3.1-alpine, does not work. It compiles but when using it errors out when accessing endpoint to return a list of object (Dockerfile_alpine). The image size was about 120MB. It clearly missing some dependencies.
+
+```bash
+# run containers in detached mode
+docker-compose up -d
+# stop
+docker-compose stop
+# clear
+docker-compose down
+# clear volumes too
+docker-compose down --volumes
 ```
