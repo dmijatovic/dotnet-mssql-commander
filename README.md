@@ -187,3 +187,11 @@ docker-compose down
 # clear volumes too
 docker-compose down --volumes
 ```
+
+## Load tests / performance
+
+I was in particulair interested in the performance of dotnet and mssql. Initial test are not impressive, comparing it with performance tests I did with some other tools (node, python, rust, go). This is indeed completely different stack dotnet and MSSQL, but to me this is default MS stack used by lot of large companies.
+
+The performance of load test with 10 connection for 30 seconds was 25k (first test) and then 27k (second test). Same SQL server with node api achieves around 35k requests.
+
+**NOTE! dotnet api is programed for synchornious processing. I have not learned to use async approach. This could be next step for improvement**
